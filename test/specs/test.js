@@ -22,7 +22,7 @@ describe('quarkly.io page', () => {
     it('create new project', () => {
         function getProjectIds() {
              return $$('.projects_content__38WSE>a').map(element => {
-                return element.getAttribute('href').replace('https://beta.quarkly.io/project/', '');;
+                return element.getAttribute('href').replace('https://beta.quarkly.io/project/', '');
             });
         };
 
