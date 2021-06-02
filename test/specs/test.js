@@ -1,21 +1,20 @@
-const assert = require('assert')
+const  { email }  = require('../../get-random');
 
 describe('quarkly.io page', () => {
+    
     it('should return something for', () => {
         browser.url('/');
-
         expect(browser).toHaveTitle('Quarkly – Design tool for creating websites and web apps.');
-    });  
+    }); 
+
     it('registration', () => {
         browser.url('/auth');
-        
-        const getrandom = 'gfgddgfdgfdgfdgf';
 
-        browser.execute(() => {
+        browser.execute(testEmail => {
             window.___testing.__auth('beta.quarkly.iowtf');
-            window.___testing.__createTestingUsr(`${getrandom}@testing.email`, '1234566788888');
-        })
-        browser.debug();
+            window.___testing.__createTestingUsr(testEmail, '1234566788888');
+        }, email());
 
+        browser.debug();
     });  
-});
+}); 
