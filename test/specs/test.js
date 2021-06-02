@@ -30,6 +30,8 @@ describe('quarkly.io page', () => {
 
         expect($$('.projects_content__38WSE>a')).toBeElementsArrayOfSize(projectCount + 1);
 
+        browser.debug();
+        
     });
 
 }); 
