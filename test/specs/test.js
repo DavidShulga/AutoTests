@@ -2,6 +2,7 @@ const  { email, string }  = require('../../get-random');
 
 describe('quarkly.io page', () => {
     let projectId;
+    let elementId;
 
     it('Title', () => {
         browser.url('/');
@@ -20,6 +21,9 @@ describe('quarkly.io page', () => {
     });  
 
     it('create new project', () => {
+       
+        $('.modal_close__p3OJi.iconButton_button__3BhK1.iconButton_button-hover__12Uiu.iconButton_button-active__3zbip').click(); //закрывает модальное окно мэйла
+       
         function getProjectIds() {
              return $$('.projects_content__38WSE>a').map(element => {
                 return element.getAttribute('href').replace('https://beta.quarkly.io/project/', '');
@@ -50,7 +54,19 @@ describe('quarkly.io page', () => {
 
                 
         expect(browser).toHaveUrlContaining(projectId);
-        browser.debug();
+        
+    });
+
+    it('Add component on page', () => {
+
+        $('.panelItemTile_tileBody__1UOdD.component_itemBody__1wzuP .panelItemTile_title__29sbG').click();
+        
+
+        browser.switchToFrame($('#preview-iframe'));
+
+           expect($('.sc-fzqNqU.hFpwJZ')).toBeDisplayed();
+           browser.debug();
+       
     });
 
 }); 
