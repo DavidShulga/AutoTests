@@ -5,11 +5,13 @@ describe('quarkly.io page', () => {
     let elementId;
 
     it('Title', () => {
+
+        browser.setWindowSize(1920, 1080) //устанавливаем размер вызываемого браузера
         browser.url('/');
         expect(browser).toHaveTitle('Quarkly – Design tool for creating websites and web apps.');
     }); 
 
-    it('registration', () => {
+    it('Registration', () => {
         browser.url('/auth');
 
         browser.execute(testEmail => {
@@ -20,7 +22,7 @@ describe('quarkly.io page', () => {
         expect(browser).toHaveUrlContaining('dashboard');
     });  
 
-    it('create new project', () => {
+    it('Create new project', () => {
        
         $('.modal_close__p3OJi.iconButton_button__3BhK1.iconButton_button-hover__12Uiu.iconButton_button-active__3zbip').click(); //закрывает модальное окно мэйла
        
@@ -62,10 +64,18 @@ describe('quarkly.io page', () => {
         $('.panelItemTile_tileBody__1UOdD.component_itemBody__1wzuP .panelItemTile_title__29sbG').click();
         
 
-        browser.switchToFrame($('#preview-iframe'));
+        browser.switchToFrame($('#preview-iframe')); //переключились на фрейм, надо выйти из него потом
 
-           expect($('.sc-fzqNqU.hFpwJZ')).toBeDisplayed();
-           browser.debug();
+           expect($('.sc-fzqNqU.hFpwJZ')).toBeDisplayed(); //элемент отобразился но скрипт ещё подгружается
+
+    });
+
+    it('Context menu', () => {
+        $('.sc-fzqNqU.hFpwJZ').waitForClickable(); //ждём когда скрипт подгрузится и элемент станет кликабельным
+        $('.sc-fzqNqU.hFpwJZ').click( {button: 2} );  
+
+        
+        browser.debug();
        
     });
 
