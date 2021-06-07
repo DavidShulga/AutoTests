@@ -1,6 +1,6 @@
 const  { email, string }  = require('../../get-random');
 
-describe('quarkly.io page', () => {
+describe.skip('quarkly.io page', () => {
     let projectId;
     let elementId;
 
@@ -123,6 +123,6 @@ describe('quarkly.io page', () => {
 
     });
     
-    
+
 
 }); 
