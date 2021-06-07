@@ -32,7 +32,7 @@ describe('quarkly.io page', () => {
             });
         };
 
-        $('.projectItem_plus__17of5').waitForDisplayed();
+        $('.projectItem_plus__17of5').waitForDisplayed(); // кнопка New Project
 
         const projectIds = getProjectIds();
 
@@ -45,7 +45,7 @@ describe('quarkly.io page', () => {
 
         $('.modalPrompt_actions__2zWQ9 .button_button__3kU75.button_button-base__1Tql_').click();
 
-        expect($$('.projects_content__38WSE>a')).toBeElementsArrayOfSize(projectCount + 1);
+        expect($$('.projects_content__38WSE>a')).toBeElementsArrayOfSize(projectCount + 1 );
 
        [projectId] = getProjectIds().filter(elem => !projectIds.includes(elem));
     });
@@ -72,11 +72,57 @@ describe('quarkly.io page', () => {
 
     it('Context menu', () => {
         $('.sc-fzqNqU.hFpwJZ').waitForClickable(); //ждём когда скрипт подгрузится и элемент станет кликабельным
-        $('.sc-fzqNqU.hFpwJZ').click( {button: 2} );  
-
+        $('.sc-fzqNqU.hFpwJZ').click( {button: 2} );
+  
+        browser.switchToParentFrame();
+        expect($('.fixedPosition_element__5wbs2 .dropDownPropList_wrapper__319N8')).toBeDisplayed(); //Контекстное меню
         
-        browser.debug();
-       
     });
+
+    it('Context menu: Duplicate', () => {
+
+        $('.fixedPosition_element__5wbs2 .dropDownPropList_wrapper__319N8 .panelItem_item__1RAGG:nth-child(4)').click(); //duplicate button
+        
+        browser.switchToFrame($('#preview-iframe'));
+
+        expect($$('.root-widget>div')).toBeElementsArrayOfSize(2);
+
+    });
+
+    it('Context menu: Delete', () => {
+
+        $('.sc-fzqNqU.hFpwJZ').click( {button: 2} );
+
+        browser.switchToParentFrame();
+
+        $('.fixedPosition_element__5wbs2 .dropDownPropList_wrapper__319N8 .panelItem_item__1RAGG:nth-child(5)').click(); //delete button
+
+        browser.switchToFrame($('#preview-iframe'));
+
+        expect($$('.root-widget>div')).toBeElementsArrayOfSize(1);
+
+    });
+
+    it('Context menu: Create new Component', () => {
+
+        const componentName = string(6);
+        $('.sc-fzqNqU.hFpwJZ').click( {button: 2} );
+
+        browser.switchToParentFrame();
+
+        $('.fixedPosition_element__5wbs2 .dropDownPropList_wrapper__319N8 .panelItem_item__1RAGG:nth-child(7)').click(); //Create new Component button
+
+        $('.modal_modal__3FBi8 .inputLarge_input__1ZL9W').addValue(componentName);
+        
+        $('.modalPrompt_actions__2zWQ9 .button_button__3kU75.button_button-base__1Tql_').waitForClickable(); //save button
+        $('.modalPrompt_actions__2zWQ9 .button_button__3kU75.button_button-base__1Tql_').click();
+
+        expect($$('.panelContent_content__3DT67>.panelItemTileWrapper_wrapper__1tOK0.component_item__3JTvY')).toBeElementsArrayOfSize(3); // Ожидаем 3 элемента в панели
+
+        browser.debug();
+
+    });
+    
+    
 
 }); 
